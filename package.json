@@ -1,0 +1,56 @@
+{
+  "name": "webmaker-mediasync",
+  "version": "0.1.32",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mjschranz/webmaker-mediasync.git"
+  },
+  "scripts": {
+    "test": "grunt"
+  },
+  "license": "MPL-2.0",
+  "dependencies": {
+    "async": "0.2.9",
+    "JSON-object-traverse": "https://github.com/Pomax/JSON-object-traverse/tarball/v0.0.2",
+    "node-cache": "1.0.0",
+    "querystring": "0.2.0",
+    "redis": "0.10.3",
+    "request": "2.21.0"
+  },
+  "devDependencies": {
+    "grunt": "0.4.1",
+    "grunt-contrib-jshint": "0.4.3"
+  },
+  "engines": {
+    "node": ">=0.8.23",
+    "npm": ">=1.2.10"
+  },
+  "gitHead": "6fa08777454fc253769461ab7f9fbcc967d1ee32",
+  "description": "Webmaker MediaSync ==================",
+  "bugs": {
+    "url": "https://github.com/mjschranz/webmaker-mediasync/issues"
+  },
+  "homepage": "https://github.com/mjschranz/webmaker-mediasync",
+  "_id": "webmaker-mediasync@0.1.32",
+  "_shasum": "7ef2050914e40c91d3cb363cc5354caea14fbe09",
+  "_from": "webmaker-mediasync@0.1.32",
+  "_npmVersion": "1.4.14",
+  "_npmUser": {
+    "name": "jbuck",
+    "email": "jon@jbuckley.ca"
+  },
+  "maintainers": [
+    {
+      "name": "jbuck",
+      "email": "jon@jbuckley.ca"
+    }
+  ],
+  "dist": {
+    "shasum": "7ef2050914e40c91d3cb363cc5354caea14fbe09",
+    "tarball": "http://registry.npmjs.org/webmaker-mediasync/-/webmaker-mediasync-0.1.32.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/webmaker-mediasync/-/webmaker-mediasync-0.1.32.tgz",
+  "readme": "Webmaker MediaSync\n==================\n\nMediaSync is a Node.js serverside NPM module designed to make searching for media from popular Web services easy with a universal API.\n\n### Initialization ###\nThe initialization of the module as very few parameters currently. They are as follows:\n\n>`App Instance`: A reference to your application's Express/Connect instance. This is used to attach the searching route to your application\n>`options` - An object with the following properties:\n>\n> + `serviceKeys` - **required** - An object containing API keys for each service you plan to use.\n> + `limit` - Used to specify the amount of results returned in a query. Defaults to 30.\n> + `cacheExpiry` - Used to specify how long searches should be cached, in seconds. Defaults to 1800 seconds.\n\nExample:\n```\nvar mediasync = require( \"webmaker-mediasync\" );\n\nmediasync( expressApp, {\n  serviceKeys: {\n    soundcloud: \"d2idm12domodo12mdo12mdo2d12d\",\n    flickr: \"d2di3mdi3di23md23idm\",\n    gihpy: \"21d12d21d2d12d12d\"\n  }\n});\n```\n\n### Supported Services ###\n\nCurrently we support query based searching with the following services: **YouTube**, **SoundCloud**, **Giphy** and **Flickr**.\n\n**NOTE**: **YouTube** does not currently require an API Key to be given to use it.\n\n### Usage ###\n\nWhen initialized, the application will add one endpoint to your application to be used to make searches.\n\n`/api/webmaker/search/{SERVICE}?{QUERYSTRING_PARAMETERS}`\n\n>`SERVICE` - Expects a value matching one of the following:\n> + **YouTube**, **SoundCloud**, **Giphy**, **All** and **Flickr**. These can be any case, we lowercase this value before evaluating.\n> + + In the case of **All**, every supported service will have the provided query used against all supported services.\n>\n> `QUERYSTRING_PARAMETERS` - These are used to specify more specific values, such as:\n> + `q` - The search query that you are performing. Must be a URL safe (encoded) value.\n> + `page` - Used to specify the page of results you want. A query may have 400 total results, but you will only ever recieve an amount of results matching what's specified in `limit` on initialization. Increase this value to get the next set of results.\n\n### Example Requests ###\n* `/api/webmaker/search/YouTube?page=1&q=kittens`\n* `/api/webmaker/search/YouTube?page=3&q=cute%20kittens`\n* `/api/webmaker/search/YouTube?page=10&q=%22cute%20kittens%22`\n\n### Responses ###\n\nResponses are JSON.\n\nExample success responses:\n```\n{\n  status: \"okay\",\n  currentPage: 3,\n  results: [\n    // Objects containing data\n  ],\n  total: 235\n}\n```\n\nExample failure responses:\n```\n{\n  status: \"failure\",\n  reason: \"[webmaker-mediasync]: Retrieving data for YouTube failed\",\n  error: {} // Some sort of object. For example, it could be from the service's API.\n}\n```\n",
+  "readmeFilename": "README.md"
+}
